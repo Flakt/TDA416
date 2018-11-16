@@ -1,3 +1,4 @@
+package Lab.Lab1_1;
 /*
 2017 02 02 
 end of getTimingInfo return totalTime;  -> return totalTime/5; 
@@ -122,7 +123,7 @@ public class MaxSumTest {
 		// it takes very long to run slow algorithms at big arrays
 		// so the slow algorithms are not run above these limits
 		// make them as large as possible but balance with size of nbrOfTests
-		int limit1 = 300;
+		int limit1 = 512;
 		int limit2 = 2048;
 		// end of things to change
 		// =============================================================

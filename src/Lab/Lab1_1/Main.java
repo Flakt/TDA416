@@ -1,6 +1,4 @@
-package main;
-
-import main.lab1.MaxSum;
+package Lab.Lab1_1;
 
 public class Main {
 

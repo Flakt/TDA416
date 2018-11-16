@@ -1,4 +1,4 @@
-package main.lab1;
+package Lab.Lab1_1;
 
 
 public final class MaxSum {

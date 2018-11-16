@@ -1,3 +1,5 @@
+package Lab.Lab1_2;
+
 import java.awt.Color;
 import java.awt.Point;
 import java.util.Iterator;
