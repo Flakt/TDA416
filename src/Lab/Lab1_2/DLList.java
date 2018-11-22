@@ -203,7 +203,28 @@ public class DLList {
 	* @throws NullPointerException if p==null
 	*/
 	public void addLast(Point p) {
-		// TODO
+		if (p == null){
+			throw new NullPointerException("addLast: The Point to add is null");
+		}
+
+		if (head == null){
+			head = new Node(p, -1);
+			tail = head;
+		} else {
+			tail.next = new Node(p, -1);
+			tail.next.prev = tail;
+			tail.prev = tail;
+			tail = tail.next;
+		}
+
+		/*
+		Node<E> p = head; // finns alltid
+		while (p.next != null) {
+			p = p.next;
+		}
+		p.next = new Node(obj, null));
+		*/
+
 	} // end addLast
 	// ============================================================
 	/**
@@ -212,14 +233,44 @@ public class DLList {
 	* @throws NoSuchElementException if the priority queue becomes empty
 	*/
 	public void reduceListToKElements(int k) {
-		// TODO
 		// Calculates the initial important measure for all nodes.
 		// Assume there are at least 3 nodes otherwise it's all meaningless.
-		
-		// now reduce the list to the k most important nodes
-		
+		Node current = head.next;
+
+		// Gives an importance value to all the nodes and places them in the priority queue
+		while (current.next != null && current.prev != null) {
+			current.imp = importanceOfP(current.prev.p, current.p, current.next.p);
+			q.add(current);
+			current = current.next;
+		}
+
+		// Reduces the list to the k most important nodes
+		while (q.size() <= k) {
+
+			try {
+				double minValue = q.peek().imp;
+
+				
+
+
+
+
+
+
+
+			} catch (Exception ex) {
+				throw new NoSuchElementException("reduceListToKElements: The priority queue is empty");
+			}
+
+
+
+
 			// recalculate importance for rem.next, neighbour to the right
 			// and rem.prev, neighbour to the left
+
+
+		}
+
 
 	}
 
