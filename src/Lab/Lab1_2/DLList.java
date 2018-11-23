@@ -232,7 +232,7 @@ public class DLList {
 		// Gives an importance value to all nodes (except the first and the last) and places them in the priority queue
 		while (current.next != null && current.prev != null) {
 			current.imp = importanceOfP(current.prev.p, current.p, current.next.p);
-			q.add(current);
+			q.offer(current);
 			size++;
 			current = current.next;
 		}
@@ -240,7 +240,6 @@ public class DLList {
 		while (q.size() > k) {
 			// Catches exceptions when the list is empty.
 			try {
-
 				Node lowValueNode = q.poll();
 				lowValueNode.prev.next = lowValueNode.next;
 				lowValueNode.next.prev = lowValueNode.prev;
@@ -252,7 +251,6 @@ public class DLList {
 				calculateNeighbourImp(lowValueNode.next);
 				q.remove(lowValueNode.next);				// Update the priority queue
 				q.offer(lowValueNode.next);
-
 			} catch (Exception ex) {
 				throw new NoSuchElementException("reduceListToKElements: The priority queue is empty");
 			}
