@@ -229,15 +229,14 @@ public class DLList {
 	// ============================================================
 	/**
 	* Reduces the list to the sought-after k most important points.
+	 *
 	* @param k the number of remaining points
 	* @throws NoSuchElementException if the priority queue becomes empty
 	*/
 	public void reduceListToKElements(int k) {
-		// Calculates the initial important measure for all nodes.
-		// Assume there are at least 3 nodes otherwise it's all meaningless.
-		Node current = head.next;
+		Node current = head.next; // The current node when traversing the double linked list
 
-		// Gives an importance value to all the nodes and places them in the priority queue
+		// Gives an importance value to all nodes (except the first and the last) and places them in the priority queue
 		while (current.next != null && current.prev != null) {
 			current.imp = importanceOfP(current.prev.p, current.p, current.next.p);
 			q.add(current);
@@ -247,31 +246,42 @@ public class DLList {
 		// Reduces the list to the k most important nodes
 		while (q.size() <= k) {
 
+			// Catches exceptions when the list is empty.
 			try {
-				double minValue = q.peek().imp;
+				double minValue = q.peek().imp; // The lowest importance value of the nodes
+				Node lowValueNode;				// The Node we remove from the priority queue
 
-				
+				// Removes all first elements that contains minValue and recalculate its neighbours
+				while (q.peek().imp == minValue){
+					lowValueNode = q.poll();
+					lowValueNode.prev.next = lowValueNode.next;
+					lowValueNode.next.prev = lowValueNode.prev;
 
+					calculateNeighbourImp(lowValueNode.prev);
+					calculateNeighbourImp(lowValueNode.next);
+				}
 
+				// Resets the current node and clears the priority queue
+				current = head.next;
+				q.clear();
 
-
-
-
+				// Adds all nodes (except the first and the last) to the priority queue
+				while (current.next != null && current.prev != null){
+					q.add(current);
+					current = current.next;
+				}
 
 			} catch (Exception ex) {
 				throw new NoSuchElementException("reduceListToKElements: The priority queue is empty");
 			}
-
-
-
-
-			// recalculate importance for rem.next, neighbour to the right
-			// and rem.prev, neighbour to the left
-
-
 		}
+	}
 
-
+	// Calculates the importance of the neighbouring nodes
+	private void calculateNeighbourImp (Node node){
+		if (node.next != null && node.prev != null){
+			node.imp = importanceOfP(node.prev.p, node.p, node.next.p);
+		}
 	}
 
 }
