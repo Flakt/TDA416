@@ -1,13 +1,10 @@
 package Lab.Lab1_2;
 
-import java.util.PriorityQueue;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.Iterator;
-//import java.io.FileNotFoundException;
 import java.awt.Point;
-import java.awt.Color;
-import java.text.DecimalFormat;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.PriorityQueue;
+import java.util.Scanner;
 
 // EH 2015 01 27
 // EH 2017 01 25
@@ -23,7 +20,7 @@ public class DLList {
 	// 1.0E300 is almost infinity (approx. = Double.MAX_VALUE 
 	private static final double infinity = 1.0E300; 
 	//private DrawGraph shape;
-	private PriorityQueue <Node> q = new PriorityQueue<Node>();
+	private PriorityQueue<Node> q = new PriorityQueue<Node>();
 	
 	// values to keep the maximum values in the shape
 	int maxX = 0;
@@ -102,7 +99,7 @@ public class DLList {
 		double l1 = l.distance(p); // use Points distance function :-)
 		double l2 = p.distance(r);
 		double l3 = l.distance(r);
-		/* debug
+		 //debug
 		System.out.println("punkterna (l: p: r): " + l + ": " + p + ": " + r); 
 		System.out.println("l-p= " + String.format( "%5.2f ", l1) 
 						+ " p-r= " + String.format( "%5.2f ", l2) 
@@ -110,7 +107,7 @@ public class DLList {
 						+ " (l1+l2-l3)= " + String.format( "%5.2f ", (l1+l2-l3)) );
 		System.out.println();
 		// end debug
-		*/
+
 		return l1+l2-l3;
 	}
 	// ============================================================
@@ -207,23 +204,18 @@ public class DLList {
 			throw new NullPointerException("addLast: The Point to add is null");
 		}
 
+		Node lastNode = new Node(p, -1);
+
 		if (head == null){
-			head = new Node(p, -1);
+			head = lastNode;
 			tail = head;
 		} else {
-			tail.next = new Node(p, -1);
-			tail.next.prev = tail;
-			tail.prev = tail;
-			tail = tail.next;
-		}
 
-		/*
-		Node<E> p = head; // finns alltid
-		while (p.next != null) {
-			p = p.next;
+			tail.next = lastNode;
+			lastNode.prev = tail;
+			tail = lastNode;
+
 		}
-		p.next = new Node(obj, null));
-		*/
 
 	} // end addLast
 	// ============================================================
@@ -234,42 +226,32 @@ public class DLList {
 	* @throws NoSuchElementException if the priority queue becomes empty
 	*/
 	public void reduceListToKElements(int k) {
-		Node current = head.next; // The current node when traversing the double linked list
+		// The current node when traversing the double linked list
+		Node current = head.next;
 
 		// Gives an importance value to all nodes (except the first and the last) and places them in the priority queue
 		while (current.next != null && current.prev != null) {
 			current.imp = importanceOfP(current.prev.p, current.p, current.next.p);
 			q.add(current);
+			size++;
 			current = current.next;
 		}
-
-		// Reduces the list to the k most important nodes
-		while (q.size() <= k) {
-
+		// Reduces the list to the k most important nodes, accounting for the first and the last nodes
+		while (q.size() > k) {
 			// Catches exceptions when the list is empty.
 			try {
-				double minValue = q.peek().imp; // The lowest importance value of the nodes
-				Node lowValueNode;				// The Node we remove from the priority queue
 
-				// Removes all first elements that contains minValue and recalculate its neighbours
-				while (q.peek().imp == minValue){
-					lowValueNode = q.poll();
-					lowValueNode.prev.next = lowValueNode.next;
-					lowValueNode.next.prev = lowValueNode.prev;
+				Node lowValueNode = q.poll();
+				lowValueNode.prev.next = lowValueNode.next;
+				lowValueNode.next.prev = lowValueNode.prev;
+				size--;
 
-					calculateNeighbourImp(lowValueNode.prev);
-					calculateNeighbourImp(lowValueNode.next);
-				}
-
-				// Resets the current node and clears the priority queue
-				current = head.next;
-				q.clear();
-
-				// Adds all nodes (except the first and the last) to the priority queue
-				while (current.next != null && current.prev != null){
-					q.add(current);
-					current = current.next;
-				}
+				calculateNeighbourImp(lowValueNode.prev);
+				q.remove(lowValueNode.prev);
+				q.offer(lowValueNode.prev);					// Updates the priority queue when a new node is inserted
+				calculateNeighbourImp(lowValueNode.next);
+				q.remove(lowValueNode.next);				// Update the priority queue
+				q.offer(lowValueNode.next);
 
 			} catch (Exception ex) {
 				throw new NoSuchElementException("reduceListToKElements: The priority queue is empty");
