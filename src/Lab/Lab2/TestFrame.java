@@ -164,7 +164,7 @@ public class TestFrame extends JFrame implements ActionListener {
 		} else if ( e.getSource() == berakna ) {
 			if (map==null) {
 				listModel.clear();
-				listModel.addElement("NO Collection implemented!");
+				listModel.addElement("NO Collection implemented! (map==null)");
 				return;
 			}
 			map.clear();
@@ -193,7 +193,7 @@ public class TestFrame extends JFrame implements ActionListener {
 						+ " could not be opened !!" ); 
 			} 
 			catch( NullPointerException ex) { 
-				listModel.addElement("NO Collection implemented");
+				listModel.addElement("Null Pointer Exception troligen från er kod");
 			}
 		}
 	}

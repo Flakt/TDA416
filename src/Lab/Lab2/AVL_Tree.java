@@ -1,6 +1,7 @@
 package Lab.Lab2;
 
 import java.util.*;
+
 /**
  *  A binary searchtree ordered by the
  *  method compareTo for the elements and
@@ -23,7 +24,7 @@ public class AVL_Tree<E extends Comparable<? super E>>
 		int height;
 
 		private AVL_Entry( E          element,
-		   Entry  left,
+		   Entry  left, 
 			   Entry  right,
 		Entry  parent ) {
 			super( element, left, right, parent );
