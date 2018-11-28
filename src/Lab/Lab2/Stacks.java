@@ -1,4 +1,5 @@
 //package datastructures;
+package Lab.Lab2;
 
 /**
  * The requirments to satisfy the requirements

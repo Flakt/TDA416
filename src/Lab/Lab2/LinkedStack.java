@@ -1,5 +1,5 @@
 //package datastructures;
-
+package Lab.Lab2;
 
 import java.util.*; 
 

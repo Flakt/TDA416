@@ -1,4 +1,5 @@
-package Lab.Lab1_3.nyaLab2.www;
+package Lab.Lab2;
+
 /**
  * This is a regular <tt>AVL_Tree</tt>,
  * extended with the method <tt>get</tt>, see below.

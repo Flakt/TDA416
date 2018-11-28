@@ -1,4 +1,6 @@
 //package testSortCol;
+package Lab.Lab2;
+
 import java.util.*;
 
 /**

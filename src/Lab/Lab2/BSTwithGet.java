@@ -1,3 +1,4 @@
+package Lab.Lab2;
 
 /**
  * This is a regular <tt>BinarySearchTree</tt>,
