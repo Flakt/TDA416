@@ -1,4 +1,3 @@
-//package datastructures;
 package Lab.Lab2;
 
 /**
