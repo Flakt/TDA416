@@ -1,10 +1,19 @@
 package Lab.Lab2;
 
-public class SLCWithGet extends LinkedCollection {
+import java.util.Comparator;
 
-    SLCWithGet(){
+public class SLCWithGet<E> extends LinkedCollection implements Comparable {
+
+    SLCWithGet() {
         super();
     }
+
+    @Override
+    public int compareTo(Object otherO) {
+        int result = Comparator.compare(this, otherO);
+        return 0;
+    }
+
 
     @Override
     public boolean add(Object element) {
@@ -12,16 +21,28 @@ public class SLCWithGet extends LinkedCollection {
             head = new Entry(element, null);
             return true;
         } else {
-            addObject(head, element);
+            if (element.toString().compareTo(head.element.toString()) > 0) {
+                Entry entryToAdd = new Entry(element, head.next);
+                addObject(entryToAdd, head.next.element);
+            }
+            head = head.next;
         }
+        return true;
     }
 
     private boolean addObject(Entry entry, Object element) {
-        if ()
-            element.
+        return true;
     }
 
+    public E get(E e) {
+        Entry t = find(e);
+        return t;
+        //return t == null ? null : t.element;
 
+
+
+        return element:
+    }
 
 
 }
