@@ -12,16 +12,51 @@ public class SLCWithGet extends LinkedCollection {
             head = new Entry(element, null);
             return true;
         } else {
-            addObject(head, element);
+            return addObject(head, element);
         }
     }
 
-    private boolean addObject(Entry entry, Object element) {
-        if ()
-            element.
+    /**
+     * Recursively checks if an Entries element is higher lexicographicaly
+     * than the element to be inserted. It then creates a new Entry and links
+     * it appropriately.
+     *
+     * @param current the entry to be compared.
+     * @param element the object to be inserted.
+     * @return true if the object has been added to the list.
+     */
+    private boolean addObject(Entry current, Object element) {
+        if (current.next == null) {
+            current.next = new Entry(element, null);
+            return true;
+        }
+        if (current.element.toString().compareTo(element.toString()) >= 0) {
+            Entry addedEntry = new Entry(element, current);
+            updateEntryBefore(addedEntry, current, head);
+            return true;
+        } else {
+            addObject(current.next, element);
+        }
+        return false;
     }
 
+    /**
+     * Iterates through the linked list by recursion and 
+     * finds the element linked to endEntry and links it to the
+     * newly inserted Entry.
+     * 
+     * @param addedEntry the Entry to be linked to
+     * @param endEntry the Entry to stop at
+     * @param itr the current entry to be checked
+     */
 
+    private void updateEntryBefore(Entry addedEntry, Entry endEntry, Entry itr) {
+        if (itr.next == endEntry) {
+            itr.next = addedEntry;
+        } else {
+            updateEntryBefore(addedEntry, endEntry, itr.next);
+        }
+    }
 
 
 }
