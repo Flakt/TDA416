@@ -60,17 +60,24 @@ public class SLCWithGet<E> extends LinkedCollection<E> {
         }
     }
 
-    public Entry get(E e) {
-        return get(e, head);
+    /**
+     * Fetches the Entry that contains the value that is sought.
+     *
+     * @param element The element we want to find.
+     * @return The Entry that matches the searched value.
+     */
+    public Entry get(E element) {
+        return get(element, head);
     }
 
-    private Entry get(E e, Entry head){
+    // Helper method for "get" that adds an argument which allows us to do a recursive call
+    private Entry get(E element, Entry head){
         if(head.next == null){
             throw new NullPointerException("get: The element was not found in the list.");
-        } else if(head.next.element == e) {
+        } else if(head.next.element == element) {
             return head.next;
         } else{
-            get(e, head.next);
+            get(element, head.next);
         }
         return null; // This will never happen
     }
