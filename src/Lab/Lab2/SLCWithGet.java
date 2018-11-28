@@ -2,18 +2,11 @@ package Lab.Lab2;
 
 import java.util.Comparator;
 
-public class SLCWithGet<E> extends LinkedCollection implements Comparable {
+public class SLCWithGet<E> extends LinkedCollection {
 
     SLCWithGet() {
         super();
     }
-
-    @Override
-    public int compareTo(Object otherO) {
-        int result = Comparator.compare(this, otherO);
-        return 0;
-    }
-
 
     @Override
     public boolean add(Object element) {
@@ -21,28 +14,49 @@ public class SLCWithGet<E> extends LinkedCollection implements Comparable {
             head = new Entry(element, null);
             return true;
         } else {
-            if (element.toString().compareTo(head.element.toString()) > 0) {
-                Entry entryToAdd = new Entry(element, head.next);
-                addObject(entryToAdd, head.next.element);
-            }
-            head = head.next;
+            return addObject(head, element);
         }
-        return true;
     }
 
-    private boolean addObject(Entry entry, Object element) {
-        return true;
+    /**
+     * Recursively checks if an Entries element is higher lexicographicaly
+     * than the element to be inserted. It then creates a new Entry and links
+     * it appropriately.
+     *
+     * @param current the entry to be compared.
+     * @param element the object to be inserted.
+     * @return true if the object has been added to the list.
+     */
+    private boolean addObject(Entry current, Object element) {
+        if (current.next == null) {
+            current.next = new Entry(element, null);
+            return true;
+        }
+        if (current.element.toString().compareTo(element.toString()) >= 0) {
+            Entry addedEntry = new Entry(element, current);
+            updateEntryBefore(addedEntry, current, head);
+            return true;
+        } else {
+            addObject(current.next, element);
+        }
+        return false;
     }
 
-    public E get(E e) {
-        Entry t = find(e);
-        return t;
-        //return t == null ? null : t.element;
+    /**
+     * Iterates through the linked list by recursion and 
+     * finds the element linked to endEntry and links it to the
+     * newly inserted Entry.
+     * 
+     * @param addedEntry the Entry to be linked to
+     * @param endEntry the Entry to stop at
+     * @param itr the current entry to be checked
+     */
 
-
-
-        return element:
+    private void updateEntryBefore(Entry addedEntry, Entry endEntry, Entry itr) {
+        if (itr.next == endEntry) {
+            itr.next = addedEntry;
+        } else {
+            updateEntryBefore(addedEntry, endEntry, itr.next);
+        }
     }
-
-
 }
