@@ -4,10 +4,17 @@ public class SLCWithGet<E extends Comparable<? super E>>
                         extends LinkedCollection<E>
                         implements CollectionWithGet<E> {
 
+    // Constructor
     SLCWithGet() {
         super();
     }
 
+    /**
+     * ADD TEXT
+     *
+     * @param element the object to add into the list
+     * @return
+     */
     public boolean add(E element) {
         if (head == null) {
             head = new Entry(element, null);
@@ -22,21 +29,21 @@ public class SLCWithGet<E extends Comparable<? super E>>
      * than the element to be inserted. It then creates a new Entry and links
      * it appropriately.
      *
-     * @param current the entry to be compared.
-     * @param element the object to be inserted.
+     * @param currentEntry the entry to be compared.
+     * @param elementToAdd the object to be inserted.
      * @return true if the object has been added to the list.
      */
-    private boolean addObject(Entry current, E element) {
-        if (current.next == null) {
-            current.next = new Entry(element, null);
+    private boolean addObject(Entry currentEntry, E elementToAdd) {
+        if (currentEntry.next == null) {
+            currentEntry.next = new Entry(elementToAdd, null);
             return true;
         }
-        if (current.element.toString().compareTo(element.toString()) >= 0) {
-            Entry addedEntry = new Entry(element, current);
-            updateEntryBefore(addedEntry, current, head);
+        if (currentEntry.element.compareTo(elementToAdd) >= 0) {
+            Entry addedEntry = new Entry(elementToAdd, currentEntry.next);
+            updateEntryLinks(head, addedEntry, addedEntry.next);
             return true;
         } else {
-            addObject(current.next, element);
+            addObject(currentEntry.next, elementToAdd);
         }
         return false;
     }
@@ -46,38 +53,40 @@ public class SLCWithGet<E extends Comparable<? super E>>
      * finds the element linked to endEntry and links it to the
      * newly inserted Entry.
      * 
-     * @param addedEntry the Entry to be linked to
-     * @param endEntry the Entry to stop at
-     * @param itr the current entry to be checked
+     * @param iterator The current entry we use to iterate the linked list.
+     * @param addedEntry the Entry the iterator.next need to be connected to.
+     * @param nextEntry The Entry we use to know which Entry that should link to addedEntry.
      */
-
-    private void updateEntryBefore(Entry addedEntry, Entry endEntry, Entry itr) {
-        if (itr.next == endEntry) {
-            itr.next = addedEntry;
+    private void updateEntryLinks(Entry iterator, Entry addedEntry, Entry nextEntry) {
+        if (iterator.next == nextEntry){
+            iterator.next = addedEntry;
         } else {
-            updateEntryBefore(addedEntry, endEntry, itr.next);
+         updateEntryLinks(iterator.next, addedEntry, nextEntry);
         }
     }
 
     /**
      * Fetches the Entry that contains the value that is sought.
      *
-     * @param element The element we want to find.
-     * @return The Entry that matches the searched value.
+     * @param searchedElement The element we want to find.
+     * @return the searched element if it was found.
      */
-    public E get(E element) {
-        return get(element, head);
-    }
-
-    // Helper method for "get" that adds an argument which allows us to do a recursive call
-    private E get(E element, Entry head){
-        if(head == null){
+    public E get(E searchedElement) {
+        if (head == null) {
             return null;
-        } else if(head.element == element) {
-            return head.element;
-        } else {
-            get(element, head.next);
         }
-        return head.element; // This will never happen
+
+        Entry currentEntry = head;
+        int compare = searchedElement.compareTo(currentEntry.element);
+
+        while (compare != 0) {
+            if(currentEntry.next == null) {
+                return null;
+            }
+            currentEntry = currentEntry.next;
+            compare = searchedElement.compareTo(currentEntry.element);
+        }
+
+        return currentEntry.element;
     }
 }
