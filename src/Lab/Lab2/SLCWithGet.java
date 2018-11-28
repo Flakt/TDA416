@@ -1,7 +1,5 @@
 package Lab.Lab2;
 
-import java.util.Comparator;
-
 public class SLCWithGet<E extends Comparable<? super E>>
                         extends LinkedCollection<E>
                         implements CollectionWithGet<E> {
@@ -10,7 +8,6 @@ public class SLCWithGet<E extends Comparable<? super E>>
         super();
     }
 
-    @Override
     public boolean add(E element) {
         if (head == null) {
             head = new Entry(element, null);
@@ -69,19 +66,18 @@ public class SLCWithGet<E extends Comparable<? super E>>
      * @return The Entry that matches the searched value.
      */
     public E get(E element) {
-        return (E)(get(element, head));
+        return get(element, head);
     }
 
     // Helper method for "get" that adds an argument which allows us to do a recursive call
-    private Entry get(E element, Entry head){
-        if(head.next == null){
-            throw new NullPointerException("get: The element was not found in the list.");
-        } else if(head.next.element == element) {
-            return head.next;
-        } else{
+    private E get(E element, Entry head){
+        if(head == null){
+            return null;
+        } else if(head.element == element) {
+            return head.element;
+        } else {
             get(element, head.next);
         }
-        return null; // This will never happen
+        return head.element; // This will never happen
     }
-
 }
