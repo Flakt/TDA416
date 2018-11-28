@@ -2,7 +2,9 @@ package Lab.Lab2;
 
 import java.util.Comparator;
 
-public class SLCWithGet<E> extends LinkedCollection<E> {
+public class SLCWithGet<E extends Comparable<? super E>>
+                        extends LinkedCollection<E>
+                        implements CollectionWithGet<E> {
 
     SLCWithGet() {
         super();
@@ -66,8 +68,8 @@ public class SLCWithGet<E> extends LinkedCollection<E> {
      * @param element The element we want to find.
      * @return The Entry that matches the searched value.
      */
-    public Entry get(E element) {
-        return get(element, head);
+    public E get(E element) {
+        return (E)(get(element, head));
     }
 
     // Helper method for "get" that adds an argument which allows us to do a recursive call
