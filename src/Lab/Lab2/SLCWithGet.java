@@ -2,14 +2,14 @@ package Lab.Lab2;
 
 import java.util.Comparator;
 
-public class SLCWithGet<E> extends LinkedCollection {
+public class SLCWithGet<E> extends LinkedCollection<E> {
 
     SLCWithGet() {
         super();
     }
 
     @Override
-    public boolean add(Object element) {
+    public boolean add(E element) {
         if (head == null) {
             head = new Entry(element, null);
             return true;
@@ -27,7 +27,7 @@ public class SLCWithGet<E> extends LinkedCollection {
      * @param element the object to be inserted.
      * @return true if the object has been added to the list.
      */
-    private boolean addObject(Entry current, Object element) {
+    private boolean addObject(Entry current, E element) {
         if (current.next == null) {
             current.next = new Entry(element, null);
             return true;
@@ -59,4 +59,20 @@ public class SLCWithGet<E> extends LinkedCollection {
             updateEntryBefore(addedEntry, endEntry, itr.next);
         }
     }
+
+    public Entry get(E e) {
+        return get(e, head);
+    }
+
+    private Entry get(E e, Entry head){
+        if(head.next == null){
+            throw new NullPointerException("get: The element was not found in the list.");
+        } else if(head.next.element == e) {
+            return head.next;
+        } else{
+            get(e, head.next);
+        }
+        return null; // This will never happen
+    }
+
 }
