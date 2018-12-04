@@ -8,12 +8,53 @@ public class SplayWithGet<E extends Comparable<? super E>>
         super();
     }
 
+
+    /**
+     * Checks if an occurence of the argument exists in the collection,
+     * "splays" it (moving the sought entry to the root of the tree while balancing accordingly).
+     * and then returns the content after being moved to the root.
+     *
+     * @param e The dummy element to compare to.
+     * @return An element  <tt>e'</tt> in the collection
+     *         satisfying <tt>e.compareTo(e') == 0</tt>.
+     *         If no element is found, <tt>null</tt> is returned
+     */
     @Override
     public E get(E e) {
-        return null;
+        if (splay(e)) {
+            return root.element;
+        } else {
+            return null;
+        }
     }
 
-    
+    @Override
+    public boolean add (E elem) {
+        if (root == null) {
+            root = new Entry(elem, null);
+        } else {
+            addInTree(elem, root);
+        }
+        size++;
+        return true;
+    }
+
+    private void addInTree(E newElem, Entry root) {
+    }
+
+    private boolean splay( E e ) {
+        Entry soughtEntry = find(e, root);
+        if (soughtEntry != null) {
+            while (root.element != e) {
+                
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     private void leftThenRight ( Entry x ) {
         // First rotate left
         Entry y = x.left;
