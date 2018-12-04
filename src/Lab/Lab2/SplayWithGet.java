@@ -14,6 +14,76 @@ public class SplayWithGet<E extends Comparable<? super E>>
     }
 
     
+    private void leftThenRight ( Entry x ) {
+        // First rotate left
+        Entry y = x.left;
+        Entry z = y.right;
+
+        E temp = y.element;
+        y.element = z.element;
+        z.element = temp;
+        y.right = z.right;
+        if ( y.right != null ) {
+            y.right.parent = z;
+        }
+        z.right = z.left;
+        z.left = y.left;
+        if ( z.left != null ) {
+            z.left.parent = z;
+        }
+        y.left = z;
+
+        // Now rotate right
+        temp = x.element;
+        x.element = y.element;
+        y.element = temp;
+        x.left = y.left;
+        if ( x.left != null ) {
+            x.left.parent = x;
+        }
+        y.left = y.right;
+        y.right = x.right;
+        if ( y.right != null ) {
+            y.right.parent = y;
+        }
+        x.right = y;
+    }
+
+    private void rightThenLeft ( Entry x ) {
+        // First rotate right
+        Entry y = x.right;
+        Entry z = y.left;
+
+        E temp = y.element;
+        y.element = z.element;
+        z.element = temp;
+        y.left = z.left;
+        if ( y.left != null ) {
+            y.left.parent = z;
+        }
+        z.left = z.right;
+        z.right = y.right;
+        if ( z.right != null ) {
+            z.right.parent = z;
+        }
+        y.right = z;
+
+        // Now rotate left
+        temp = x.element;
+        x.element = y.element;
+        y.element = temp;
+        x.right = y.right;
+        if ( x.right != null ) {
+            x.right.parent = x;
+        }
+        y.right = y.left;
+        y.left = x.left;
+        if ( y.left != null ) {
+            y.left.parent = y;
+        }
+        x.left = y;
+
+    }
 
     // Code below copied from AVL_Tree
 
@@ -25,17 +95,19 @@ public class SplayWithGet<E extends Comparable<? super E>>
          A   B                  B   C
    */
     private void rotateRight( Entry x ) {
-        Entry   y = x.left;
-        E    temp = x.element;
+        Entry y = x.left;
+        E temp = x.element;
         x.element = y.element;
         y.element = temp;
-        x.left    = y.left;
-        if ( x.left != null )
-            x.left.parent   = x;
+        x.left = y.left;
+        if ( x.left != null ) {
+            x.left.parent = x;
+        }
         y.left    = y.right;
         y.right   = x.right;
-        if ( y.right != null )
-            y.right.parent  = y;
+        if ( y.right != null ) {
+            y.right.parent = y;
+        }
         x.right   = y;
     } //   rotateRight
     // ========== ========== ========== ==========
