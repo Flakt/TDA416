@@ -39,18 +39,59 @@ public class SplayWithGet<E extends Comparable<? super E>>
         return true;
     }
 
-    private void addInTree(E newElem, Entry root) {
+    // TODO: Consider how this method really should work
+    private void addInTree(E newElem, Entry entry) {
+        if (newElem.compareTo(entry.element) < 0) {
+            if (entry.left == null) {
+                entry.left = new Entry(newElem, entry);
+            } else {
+                addInTree(newElem, entry.left);
+            }
+        } else {
+            if (entry.right == null) {
+                entry.right = new Entry(newElem, entry);
+            } else {
+                addInTree(newElem, entry.right);
+            }
+        }
     }
 
+    // TODO: Optimize?
     private boolean splay( E e ) {
         Entry soughtEntry = find(e, root);
         if (soughtEntry != null) {
             while (root.element != e) {
-                
+                if (soughtEntry.parent == root) {
+                    zigOrZag(soughtEntry);
+                }
+                else if (soughtEntry == soughtEntry.parent.left) {
+                    zagZagOrZagZig(soughtEntry);
+                }
+                else if (soughtEntry == soughtEntry.parent.right) {
+                    zigZigOrZigZag(soughtEntry);
+                }
+
             }
             return true;
         } else {
             return false;
+        }
+    }
+
+    // TODO: Actually write the method
+    private void zigZigOrZigZag(Entry soughtEntry) {
+    }
+
+
+    // TODO: Actually write the method
+    private void zagZagOrZagZig(Entry entry) {
+    }
+
+    private void zigOrZag(Entry entry) {
+        if (entry == entry.parent.left) {
+            rotateRight(entry.parent);
+        } else {
+            rotateLeft(entry.parent);
         }
     }
 
