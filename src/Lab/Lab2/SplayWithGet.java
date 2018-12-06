@@ -4,12 +4,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
                           extends BinarySearchTree<E>
                           implements CollectionWithGet<E> {
 
-    /*
-     TODO - Notiser till mig själv
-     * Behöver endast utföra balansering vid sökning i trädet.
-     * Insättning föregås alltid av en sökning, och då ligger det sökta objetet i roten.
-    */
-
     // Constructor
     SplayWithGet() {
         super();
@@ -151,7 +145,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.left = y;
     }
 
-
     /* Rotate right twice:
               x               z
              / \             / \
@@ -174,9 +167,8 @@ public class SplayWithGet<E extends Comparable<? super E>>
             y.left.parent = y;
         z.left = z.right;
         z.right = y.right;
-        if (z.right != null) {
+        if (z.right != null)
             z.right.parent = z;
-        }
         y.right = z;
 
         // Rotate right again
