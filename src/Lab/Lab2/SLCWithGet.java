@@ -4,16 +4,11 @@ public class SLCWithGet<E extends Comparable<? super E>>
                         extends LinkedCollection<E>
                         implements CollectionWithGet<E> {
 
-    // Constructor
-    SLCWithGet() {
-        super();
-    }
-
     /**
-     * ADD TEXT
+     * Adds element to the linked list.
      *
-     * @param element the object to add into the list
-     * @return
+     * @param element the object to add into the list.
+     * @return True if the element was added.
      */
     public boolean add(E element) {
         if (head == null) {
