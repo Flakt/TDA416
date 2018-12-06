@@ -70,7 +70,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
                 else if (soughtEntry == soughtEntry.parent.right) {
                     zigZigOrZigZag(soughtEntry);
                 }
-
             }
             return true;
         } else {
@@ -78,13 +77,23 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 
-    // TODO: Actually write the method
-    private void zigZigOrZigZag(Entry soughtEntry) {
+    private void zigZigOrZigZag(Entry entry) {
+        if (entry.parent.parent.left == entry.parent) {
+            rightThenRight(entry.parent.parent);
+        }
+        else {
+            rightThenLeft(entry.parent.parent);
+        }
     }
 
 
-    // TODO: Actually write the method
     private void zagZagOrZagZig(Entry entry) {
+        if (entry.parent.parent.left == entry.parent) {
+            leftThenRight(entry.parent.parent);
+        }
+        else {
+            leftThenleft(entry.parent.parent);
+        }
     }
 
     private void zigOrZag(Entry entry) {
@@ -96,75 +105,73 @@ public class SplayWithGet<E extends Comparable<? super E>>
     }
 
 
-    private void leftThenRight ( Entry x ) {
+    private void leftThenleft ( Entry x ) {
         // First rotate left
-        Entry y = x.left;
-        Entry z = y.right;
+        Entry y = x.right, z = x.right.right;
 
         E temp = y.element;
         y.element = z.element;
         z.element = temp;
         y.right = z.right;
-        if ( y.right != null ) {
-            y.right.parent = z;
+        if (y.right != null) {
+            y.right.parent = y;
         }
         z.right = z.left;
         z.left = y.left;
-        if ( z.left != null ) {
+        if (z.left != null) {
             z.left.parent = z;
         }
         y.left = z;
 
-        // Now rotate right
+        // Then left again
         temp = x.element;
         x.element = y.element;
         y.element = temp;
-        x.left = y.left;
-        if ( x.left != null ) {
-            x.left.parent = x;
+        x.right = y.right;
+        if (x.right != null) {
+            x.right.parent = x;
         }
-        y.left = y.right;
-        y.right = x.right;
-        if ( y.right != null ) {
-            y.right.parent = y;
+        y.right = y.left;
+        y.left = x.left;
+        if (y.left != null) {
+            y.left.parent = y;
         }
-        x.right = y;
+        x.left = y;
+
     }
 
-    private void rightThenLeft ( Entry x ) {
+    private void rightThenRight( Entry x ) {
         // First rotate right
-        Entry y = x.right;
-        Entry z = y.left;
+        Entry y = x.left, z = x.left.left;
 
         E temp = y.element;
         y.element = z.element;
         z.element = temp;
         y.left = z.left;
-        if ( y.left != null ) {
-            y.left.parent = z;
+        if (y.left != null) {
+            y.left.parent = y;
         }
         z.left = z.right;
         z.right = y.right;
-        if ( z.right != null ) {
+        if (z.right != null) {
             z.right.parent = z;
         }
         y.right = z;
 
-        // Now rotate left
+        // Then right again
         temp = x.element;
         x.element = y.element;
         y.element = temp;
-        x.right = y.right;
-        if ( x.right != null ) {
-            x.right.parent = x;
+        x.left = y.left;
+        if (x.left != null) {
+            x.left.parent = x;
         }
-        y.right = y.left;
-        y.left = x.left;
-        if ( y.left != null ) {
-            y.left.parent = y;
+        y.left = y.right;
+        y.right = x.right;
+        if (y.right != null) {
+            y.right.parent = y;
         }
-        x.left = y;
-
+        x.right = y;
     }
 
     // Code below copied from AVL_Tree
@@ -226,21 +233,20 @@ public class SplayWithGet<E extends Comparable<? super E>>
              / \
             B   C
     */
-    private void doubleRotateRight( Entry x ) {
-        Entry   y = x.left,
-                z = x.left.right;
-        E       e = x.element;
+    private void leftThenRight( Entry x ) {
+        Entry y = x.left, z = x.left.right;
+        E e = x.element;
         x.element = z.element;
         z.element = e;
-        y.right   = z.left;
+        y.right = z.left;
         if ( y.right != null )
             y.right.parent = y;
-        z.left    = z.right;
-        z.right   = x.right;
+        z.left = z.right;
+        z.right = x.right;
         if ( z.right != null )
             z.right.parent = z;
-        x.right   = z;
-        z.parent  = x;
+        x.right = z;
+        z.parent = x;
     }  //  doubleRotateRight
     // ========== ========== ========== ==========
 
@@ -253,10 +259,9 @@ public class SplayWithGet<E extends Comparable<? super E>>
               / \
              B   C
      */
-    private void doubleRotateLeft( Entry x ) {
-        Entry  y  = x.right,
-                z  = x.right.left;
-        E      e  = x.element;
+    private void rightThenLeft( Entry x ) {
+        Entry y = x.right, z = x.right.left;
+        E e  = x.element;
         x.element = z.element;
         z.element = e;
         y.left    = z.right;
