@@ -111,10 +111,19 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 
-    // Rotate right twice
+    /* Rotate left twice
+           x                     z
+          / \                   / \
+         A   y                 y   D
+            / \      -->      / \
+           B   z             x   C
+              / \           / \
+             C   D         A   B
+    */
     private void zagZag(Entry x) {
         // Rotate left
-        Entry y = x.right, z = x.right.right;
+        Entry y = x.right;
+        Entry z = x.right.right;
 
         E temp = y.element;
         y.element = z.element;
@@ -142,10 +151,20 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.left = y;
     }
 
-    // Rotate left twice
+
+    /* Rotate right twice:
+              x               z
+             / \             / \
+            y   D    -->    A   y
+           / \                 / \
+          z   C               B   x
+         / \                     / \
+        A   B                   C   D
+    */
     private void zigZig(Entry x) {
         // Rotate right
-        Entry y = x.left, z = x.left.left;
+        Entry y = x.left;
+        Entry z = x.left.left;
 
         E temp = y.element;
         y.element = z.element;
@@ -182,7 +201,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
            y'  C   -->        A   x'
           / \                    / \
          A   B                  B   C
-   */
+    */
     private void zig(Entry x) {
         Entry y = x.left;
         E temp = x.element;
