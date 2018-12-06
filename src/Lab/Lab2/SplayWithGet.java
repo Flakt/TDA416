@@ -15,6 +15,34 @@ public class SplayWithGet<E extends Comparable<? super E>>
         super();
     }
 
+    @Override
+    public boolean add(E elemToAdd) {
+        if (root == null) {
+            root = new Entry(elemToAdd, null);
+        } else {
+            addInTree(elemToAdd, root);
+        }
+        size++;
+        return true;
+    }
+
+    // TODO: Consider how this method really should work
+    private void addInTree(E elemToAdd, Entry entry) {
+        if (elemToAdd.compareTo(entry.element) < 0) {
+            if (entry.left == null) {
+                entry.left = new Entry(elemToAdd, entry);
+            } else {
+                addInTree(elemToAdd, entry.left);
+            }
+        } else {
+            if (entry.right == null) {
+                entry.right = new Entry(elemToAdd, entry);
+            } else {
+                addInTree(elemToAdd, entry.right);
+            }
+        }
+    }
+
     /**
      * Checks if an occurence of the argument exists in the collection,
      * "splays" it (moving the sought entry to the root of the tree while balancing accordingly).
@@ -34,37 +62,10 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 
-    @Override
-    public boolean add(E elem) {
-        if (root == null) {
-            root = new Entry(elem, null);
-        } else {
-            addInTree(elem, root);
-        }
-        size++;
-        return true;
-    }
-
-    // TODO: Consider how this method really should work
-    private void addInTree(E newElem, Entry entry) {
-        if (newElem.compareTo(entry.element) < 0) {
-            if (entry.left == null) {
-                entry.left = new Entry(newElem, entry);
-            } else {
-                addInTree(newElem, entry.left);
-            }
-        } else {
-            if (entry.right == null) {
-                entry.right = new Entry(newElem, entry);
-            } else {
-                addInTree(newElem, entry.right);
-            }
-        }
-    }
-
     // TODO: Optimize? No!
     private boolean splay(E e) {
         Entry soughtEntry = find(e, root);
+
         if (soughtEntry != null) {
             while (root.element != e) {
                 if (soughtEntry.parent == root) {
@@ -73,9 +74,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
                 else if (soughtEntry == soughtEntry.parent.left) {
                     zigZigOrZigZag(soughtEntry);
                 }
-                else if (soughtEntry == soughtEntry.parent.right) {
-                    zagZagOrZagZig(soughtEntry);
-                }
+                else { zagZagOrZagZig(soughtEntry); }
             }
             return true;
         } else {
@@ -121,14 +120,12 @@ public class SplayWithGet<E extends Comparable<? super E>>
         y.element = z.element;
         z.element = temp;
         y.right = z.right;
-        if (y.right != null) {
+        if (y.right != null)
             y.right.parent = y;
-        }
         z.right = z.left;
         z.left = y.left;
-        if (z.left != null) {
+        if (z.left != null)
             z.left.parent = z;
-        }
         y.left = z;
 
         // Rotate left again
@@ -136,14 +133,12 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.element = y.element;
         y.element = temp;
         x.right = y.right;
-        if (x.right != null) {
+        if (x.right != null)
             x.right.parent = x;
-        }
         y.right = y.left;
         y.left = x.left;
-        if (y.left != null) {
+        if (y.left != null)
             y.left.parent = y;
-        }
         x.left = y;
     }
 
@@ -156,9 +151,8 @@ public class SplayWithGet<E extends Comparable<? super E>>
         y.element = z.element;
         z.element = temp;
         y.left = z.left;
-        if (y.left != null) {
+        if (y.left != null)
             y.left.parent = y;
-        }
         z.left = z.right;
         z.right = y.right;
         if (z.right != null) {
@@ -171,14 +165,12 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.element = y.element;
         y.element = temp;
         x.left = y.left;
-        if (x.left != null) {
+        if (x.left != null)
             x.left.parent = x;
-        }
         y.left = y.right;
         y.right = x.right;
-        if (y.right != null) {
+        if (y.right != null)
             y.right.parent = y;
-        }
         x.right = y;
     }
 
@@ -197,14 +189,12 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.element = y.element;
         y.element = temp;
         x.left = y.left;
-        if ( x.left != null ) {
+        if ( x.left != null )
             x.left.parent = x;
-        }
         y.left    = y.right;
         y.right   = x.right;
-        if ( y.right != null ) {
+        if ( y.right != null )
             y.right.parent = y;
-        }
         x.right   = y;
     } //   rotateRight
     // ========== ========== ========== ==========
