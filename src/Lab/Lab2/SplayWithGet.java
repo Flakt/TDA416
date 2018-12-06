@@ -1,13 +1,13 @@
 package Lab.Lab2;
 
 public class SplayWithGet<E extends Comparable<? super E>>
-                                   extends BinarySearchTree<E>
-                                   implements CollectionWithGet<E>{
+                          extends BinarySearchTree<E>
+                          implements CollectionWithGet<E> {
 
+    // Constructor
     SplayWithGet() {
         super();
     }
-
 
     /**
      * Checks if an occurence of the argument exists in the collection,
@@ -29,7 +29,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
     }
 
     @Override
-    public boolean add (E elem) {
+    public boolean add(E elem) {
         if (root == null) {
             root = new Entry(elem, null);
         } else {
@@ -56,8 +56,8 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 
-    // TODO: Optimize?
-    private boolean splay( E e ) {
+    // TODO: Optimize? No!
+    private boolean splay(E e) {
         Entry soughtEntry = find(e, root);
         if (soughtEntry != null) {
             while (root.element != e) {
@@ -65,10 +65,10 @@ public class SplayWithGet<E extends Comparable<? super E>>
                     zigOrZag(soughtEntry);
                 }
                 else if (soughtEntry == soughtEntry.parent.left) {
-                    zagZagOrZagZig(soughtEntry);
+                    zigZigOrZigZag(soughtEntry);
                 }
                 else if (soughtEntry == soughtEntry.parent.right) {
-                    zigZigOrZigZag(soughtEntry);
+                    zagZagOrZagZig(soughtEntry);
                 }
             }
             return true;
@@ -86,13 +86,12 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 
-
     private void zagZagOrZagZig(Entry entry) {
-        if (entry.parent.parent.left == entry.parent) {
-            leftThenRight(entry.parent.parent);
+        if (entry.parent.parent.right == entry.parent) {
+            leftThenLeft(entry.parent.parent);
         }
         else {
-            leftThenleft(entry.parent.parent);
+            leftThenRight(entry.parent.parent);
         }
     }
 
@@ -104,8 +103,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 
-
-    private void leftThenleft ( Entry x ) {
+    private void leftThenLeft(Entry x) { // TODO Potentially wrong here since we wrote it.
         // First rotate left
         Entry y = x.right, z = x.right.right;
 
@@ -140,7 +138,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
     }
 
-    private void rightThenRight( Entry x ) {
+    private void rightThenRight(Entry x) { // TODO Potentially wrong here since we wrote it.
         // First rotate right
         Entry y = x.left, z = x.left.left;
 
@@ -183,7 +181,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
           / \                    / \
          A   B                  B   C
    */
-    private void rotateRight( Entry x ) {
+    private void rotateRight(Entry x) {
         Entry y = x.left;
         E temp = x.element;
         x.element = y.element;
@@ -208,7 +206,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
                / \            / \
               B   C          A   B
     */
-    private void rotateLeft( Entry x ) {
+    private void rotateLeft(Entry x) {
         Entry  y  = x.right;
         E temp    = x.element;
         x.element = y.element;
@@ -224,7 +222,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
     } //   rotateLeft
     // ========== ========== ========== ==========
 
-    /* Rotera 2 steg i hogervarv, dvs
+    /* Rotera vänster sedan höger, dvs
               x'                  z'
              / \                /   \
             y'  D   -->        y'    x'
@@ -233,7 +231,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
              / \
             B   C
     */
-    private void leftThenRight( Entry x ) {
+    private void leftThenRight(Entry x) {
         Entry y = x.left, z = x.left.right;
         E e = x.element;
         x.element = z.element;
@@ -250,7 +248,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
     }  //  doubleRotateRight
     // ========== ========== ========== ==========
 
-    /* Rotera 2 steg i vanstervarv, dvs
+    /* Rotera höger sedan vänster, dvs
                x'                  z'
               / \                /   \
              A   y'   -->       x'    y'
@@ -259,7 +257,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
               / \
              B   C
      */
-    private void rightThenLeft( Entry x ) {
+    private void rightThenLeft(Entry x) {
         Entry y = x.right, z = x.right.left;
         E e  = x.element;
         x.element = z.element;
