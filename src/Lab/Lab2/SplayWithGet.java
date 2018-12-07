@@ -5,14 +5,13 @@ public class SplayWithGet<E extends Comparable<? super E>>
                           implements CollectionWithGet<E> {
 
     /**
-     * Checks if an occurence of the argument exists in the collection,
-     * "splays" it (moving the sought entry to the root of the tree while balancing accordingly).
+     * Checks if an occurence of the argument exists in the collection, "splays" it
+     * (moving the sought entry to the root of the tree while balancing accordingly)
      * and then returns the content after being moved to the root.
      *
      * @param e The dummy element to compare to.
-     * @return An element  <tt>e'</tt> in the collection
-     *         satisfying <tt>e.compareTo(e') == 0</tt>.
-     *         If no element is found, <tt>null</tt> is returned
+     * @return An element  <tt>e'</tt> in the collection satisfying <tt>e.compareTo(e')
+     *         == 0</tt>. If no element is found, <tt>null</tt> is returned
      */
     @Override
     public E get(E e) {
@@ -86,6 +85,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 
+    // Adds an element to a splay tree
     @Override
     public boolean add(E elemToAdd) {
         if (root == null) {
@@ -97,6 +97,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         return true;
     }
 
+    // Decides where in the splay tree to add the element
     private void addInTree(E elemToAdd, Entry entry) {
         if (elemToAdd.compareTo(entry.element) < 0) {
             if (entry.left == null) {
