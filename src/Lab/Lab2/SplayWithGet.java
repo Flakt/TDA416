@@ -79,7 +79,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
     // Rotate left twice
     private void zagZag(Entry x) {
-        // Rotate left
         Entry y = x.right;
         Entry z = x.right.right;
 
@@ -94,8 +93,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
         if (z.left != null)
             z.left.parent = z;
         y.left = z;
-
-        // Rotate left again
         temp = x.element;
         x.element = y.element;
         y.element = temp;
@@ -111,34 +108,28 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
     // Rotate right twice
     private void zigZig(Entry x) {
-        // Rotate right
         Entry y = x.left;
         Entry z = x.left.left;
 
-        E temp = y.element;
-        y.element = z.element;
+        E temp = x.element;
+        x.element = z.element;
         z.element = temp;
-        y.left = z.left;
-        if (y.left != null)
-            y.left.parent = y;
-        z.left = z.right;
-        z.right = y.right;
-        if (z.right != null)
-            z.right.parent = z;
-        y.right = z;
-
-        // Rotate right again
-        temp = x.element;
-        x.element = y.element;
-        y.element = temp;
-        x.left = y.left;
+        x.left = z.left;
         if (x.left != null)
             x.left.parent = x;
-        y.left = y.right;
-        y.right = x.right;
-        if (y.right != null)
-            y.right.parent = y;
+        y.left = z.right;
+        if (y.left != null)
+            y.left.parent = y;
+        z.left = y.right;
+        if( z.left != null)
+            z.left.parent = z;
+        z.right = x.right;
+        if( z.right != null)
+            z.right.parent = z;
         x.right = y;
+        y.parent = x;
+        y.right = z;
+        z.parent = y;
     }
 
     // Code below copied from AVL_Tree
