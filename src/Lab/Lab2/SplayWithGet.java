@@ -26,11 +26,12 @@ public class SplayWithGet<E extends Comparable<? super E>>
     private boolean splayFind(E elemToFind, Entry entry) {
         if (entry == null)
             return false;
-
+        /*
         if (elemToFind == entry.element) {
             splay(entry);
             return true;
         }
+        */
 
         int cmp = elemToFind.compareTo(entry.element);
         if (cmp < 0) {
@@ -41,7 +42,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
                 return splayFind(elemToFind, entry.left);
             }
         }
-        else {
+        else if (cmp > 0) {
             if (entry.right == null){
                 splay(entry);
                 return false;
@@ -49,7 +50,46 @@ public class SplayWithGet<E extends Comparable<? super E>>
                 return splayFind(elemToFind, entry.right);
             }
         }
+        else {
+            splay(entry);
+            return true;
+        }
     }
+
+/*
+    private void splay(Entry e){
+        if (e == root)
+            return;
+
+        if (e.parent == root) {
+            if (e == root.left) {
+                zig(root);
+            } else {
+                zag(root);
+            }
+            return;
+        }
+
+        Entry parent = e.parent;
+        Entry grandparent = parent.parent;
+        if (parent == grandparent.left) {
+            if (e == parent.left) {
+                zigZig(grandparent);
+            } else {
+                zagZig(grandparent);
+            }
+        } else {
+            if (e == parent.left) {
+                zigZag(grandparent);
+            } else {
+                zagZag(grandparent);
+            }
+        }
+
+        splay(grandparent);
+    }
+*/
+
 
     private void splay(Entry soughtEntry) {
         if (soughtEntry == root)
@@ -65,6 +105,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
                     } else {
                         zag(root);
                     }
+                    break;
                 }
                 else if (soughtEntry == parentE.left) {
                     if (parentE == parentE.parent.left){
@@ -78,9 +119,12 @@ public class SplayWithGet<E extends Comparable<? super E>>
                 } else {
                     zagZig(parentE.parent);
                 }
+                soughtEntry = parentE.parent;
+                parentE = soughtEntry.parent;
             }
         }
     }
+
 
     @Override
     public boolean add(E elemToAdd) {
