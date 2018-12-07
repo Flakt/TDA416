@@ -23,15 +23,10 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 
+    // Searched for element in a splay tree
     private boolean splayFind(E elemToFind, Entry entry) {
         if (entry == null)
             return false;
-        /*
-        if (elemToFind == entry.element) {
-            splay(entry);
-            return true;
-        }
-        */
 
         int cmp = elemToFind.compareTo(entry.element);
         if (cmp < 0) {
@@ -56,41 +51,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 
-/*
-    private void splay(Entry e){
-        if (e == root)
-            return;
-
-        if (e.parent == root) {
-            if (e == root.left) {
-                zig(root);
-            } else {
-                zag(root);
-            }
-            return;
-        }
-
-        Entry parent = e.parent;
-        Entry grandparent = parent.parent;
-        if (parent == grandparent.left) {
-            if (e == parent.left) {
-                zigZig(grandparent);
-            } else {
-                zagZig(grandparent);
-            }
-        } else {
-            if (e == parent.left) {
-                zigZag(grandparent);
-            } else {
-                zagZag(grandparent);
-            }
-        }
-
-        splay(grandparent);
-    }
-*/
-
-
+    // Rebalances the splay tree
     private void splay(Entry soughtEntry) {
         if (soughtEntry == root)
             return;
@@ -125,7 +86,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 
-
     @Override
     public boolean add(E elemToAdd) {
         if (root == null) {
@@ -153,44 +113,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 
-    // Decides if we should rotate right twice, or rotate right and left
-    private void zigZigOrZigZag(Entry entry) {
-        if (entry.parent.parent.left == entry.parent) {
-            zigZig(entry.parent.parent);
-        }
-        else {
-            zigZag(entry.parent.parent);
-        }
-    }
-
-    // Decides if we should rotate left twice, or rotate left and right
-    private void zagZagOrZagZig(Entry entry) {
-        if (entry.parent.parent.right == entry.parent) {
-            zagZag(entry.parent.parent);
-        }
-        else {
-            zagZig(entry.parent.parent);
-        }
-    }
-
-    // Decides if we should rotate right or left
-    private void zigOrZag(Entry entry) {
-        if (entry == entry.parent.left) {
-            zig(entry.parent);
-        } else {
-            zag(entry.parent);
-        }
-    }
-
-    /* Rotate left twice
-           x                     z
-          / \                   / \
-         A   y                 y   D
-            / \      -->      / \
-           B   z             x   C
-              / \           / \
-             C   D         A   B
-    */
+    // Rotate left twice
     private void zagZag(Entry x) {
         // Rotate left
         Entry y = x.right;
@@ -222,15 +145,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.left = y;
     }
 
-    /* Rotate right twice:
-              x               z
-             / \             / \
-            y   D    -->    A   y
-           / \                 / \
-          z   C               B   x
-         / \                     / \
-        A   B                   C   D
-    */
+    // Rotate right twice
     private void zigZig(Entry x) {
         // Rotate right
         Entry y = x.left;
