@@ -11,15 +11,11 @@ public class SplayWithGet<E extends Comparable<? super E>>
      *
      * @param e The dummy element to compare to.
      * @return An element  <tt>e'</tt> in the collection satisfying <tt>e.compareTo(e')
-     *         == 0</tt>. If no element is found, <tt>null</tt> is returned
+     *         == 0</tt>. If no element is found, <tt>null</tt> is returned.
      */
     @Override
     public E get(E e) {
-        if (splayFind(e, root)) {
-            return root.element;
-        } else {
-            return null;
-        }
+        return splayFind(e, root) ? root.element : null;
     }
 
     // Searched for element in a splay tree
@@ -35,16 +31,14 @@ public class SplayWithGet<E extends Comparable<? super E>>
             } else {
                 return splayFind(elemToFind, entry.left);
             }
-        }
-        else if (cmp > 0) {
+        } else if (cmp > 0) {
             if (entry.right == null){
                 splay(entry);
                 return false;
             } else {
                 return splayFind(elemToFind, entry.right);
             }
-        }
-        else {
+        } else {
             splay(entry);
             return true;
         }
@@ -60,21 +54,19 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
             while (soughtEntry != root) {
                 if (parentE == root) {
-                    if (soughtEntry == parentE.left){
+                    if (soughtEntry == parentE.left) {
                         zig(root);
                     } else {
                         zag(root);
                     }
                     break;
-                }
-                else if (soughtEntry == parentE.left) {
-                    if (parentE == parentE.parent.left){
+                } else if (soughtEntry == parentE.left) {
+                    if (parentE == parentE.parent.left) {
                         zigZig(parentE.parent);
                     } else {
                         zigZag(parentE.parent);
                     }
-                }
-                else if (parentE == parentE.parent.right){
+                } else if (parentE == parentE.parent.right) {
                     zagZag(parentE.parent);
                 } else {
                     zagZig(parentE.parent);
