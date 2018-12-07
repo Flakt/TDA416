@@ -4,9 +4,82 @@ public class SplayWithGet<E extends Comparable<? super E>>
                           extends BinarySearchTree<E>
                           implements CollectionWithGet<E> {
 
-    // Constructor
-    SplayWithGet() {
-        super();
+    /**
+     * Checks if an occurence of the argument exists in the collection,
+     * "splays" it (moving the sought entry to the root of the tree while balancing accordingly).
+     * and then returns the content after being moved to the root.
+     *
+     * @param e The dummy element to compare to.
+     * @return An element  <tt>e'</tt> in the collection
+     *         satisfying <tt>e.compareTo(e') == 0</tt>.
+     *         If no element is found, <tt>null</tt> is returned
+     */
+    @Override
+    public E get(E e) {
+        if (splayFind(e, root)) {
+            return root.element;
+        } else {
+            return null;
+        }
+    }
+
+    private boolean splayFind(E elemToFind, Entry entry) {
+        if (entry == null)
+            return false;
+
+        if (elemToFind == entry.element) {
+            splay(entry);
+            return true;
+        }
+
+        int cmp = elemToFind.compareTo(entry.element);
+        if (cmp < 0) {
+            if (entry.left == null){
+                splay(entry);
+                return false;
+            } else {
+                return splayFind(elemToFind, entry.left);
+            }
+        }
+        else {
+            if (entry.right == null){
+                splay(entry);
+                return false;
+            } else {
+                return splayFind(elemToFind, entry.right);
+            }
+        }
+    }
+
+    private void splay(Entry soughtEntry) {
+        if (soughtEntry == root)
+            return;
+
+        if (soughtEntry != null) {
+            Entry parentE = soughtEntry.parent;
+
+            while (soughtEntry != root) {
+                if (parentE == root) {
+                    if (soughtEntry == parentE.left){
+                        zig(root);
+                    } else {
+                        zag(root);
+                    }
+                }
+                else if (soughtEntry == parentE.left) {
+                    if (parentE == parentE.parent.left){
+                        zigZig(parentE.parent);
+                    } else {
+                        zigZag(parentE.parent);
+                    }
+                }
+                else if (parentE == parentE.parent.right){
+                    zagZag(parentE.parent);
+                } else {
+                    zagZig(parentE.parent);
+                }
+            }
+        }
     }
 
     @Override
@@ -20,7 +93,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
         return true;
     }
 
-    // TODO: Consider how this method really should work
     private void addInTree(E elemToAdd, Entry entry) {
         if (elemToAdd.compareTo(entry.element) < 0) {
             if (entry.left == null) {
@@ -34,45 +106,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
             } else {
                 addInTree(elemToAdd, entry.right);
             }
-        }
-    }
-
-    /**
-     * Checks if an occurence of the argument exists in the collection,
-     * "splays" it (moving the sought entry to the root of the tree while balancing accordingly).
-     * and then returns the content after being moved to the root.
-     *
-     * @param e The dummy element to compare to.
-     * @return An element  <tt>e'</tt> in the collection
-     *         satisfying <tt>e.compareTo(e') == 0</tt>.
-     *         If no element is found, <tt>null</tt> is returned
-     */
-    @Override
-    public E get(E e) {
-        if (splay(e)) {
-            return root.element;
-        } else {
-            return null;
-        }
-    }
-
-    // TODO: Optimize? No!
-    private boolean splay(E e) {
-        Entry soughtEntry = find(e, root);
-
-        if (soughtEntry != null) {
-            while (root.element != e) {
-                if (soughtEntry.parent == root) {
-                    zigOrZag(soughtEntry);
-                }
-                else if (soughtEntry == soughtEntry.parent.left) {
-                    zigZigOrZigZag(soughtEntry);
-                }
-                else { zagZagOrZagZig(soughtEntry); }
-            }
-            return true;
-        } else {
-            return false;
         }
     }
 
