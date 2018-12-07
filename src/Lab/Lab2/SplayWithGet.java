@@ -77,35 +77,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 
-    // Adds an element to a splay tree
-    @Override
-    public boolean add(E elemToAdd) {
-        if (root == null) {
-            root = new Entry(elemToAdd, null);
-        } else {
-            addInTree(elemToAdd, root);
-        }
-        size++;
-        return true;
-    }
-
-    // Decides where in the splay tree to add the element
-    private void addInTree(E elemToAdd, Entry entry) {
-        if (elemToAdd.compareTo(entry.element) < 0) {
-            if (entry.left == null) {
-                entry.left = new Entry(elemToAdd, entry);
-            } else {
-                addInTree(elemToAdd, entry.left);
-            }
-        } else {
-            if (entry.right == null) {
-                entry.right = new Entry(elemToAdd, entry);
-            } else {
-                addInTree(elemToAdd, entry.right);
-            }
-        }
-    }
-
     // Rotate left twice
     private void zagZag(Entry x) {
         // Rotate left
