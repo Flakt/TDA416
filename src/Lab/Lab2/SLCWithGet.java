@@ -20,9 +20,8 @@ public class SLCWithGet<E extends Comparable<? super E>>
     }
 
     /**
-     * Recursively checks if an Entries element is higher lexicographicaly
-     * than the element to be inserted. It then creates a new Entry and links
-     * it appropriately.
+     * Recursively checks if an Entries element is higher lexicographicaly than the
+     * element to be inserted. It then creates a new Entry and links it appropriately.
      *
      * @param currentEntry the entry to be compared.
      * @param elementToAdd the object to be inserted.
@@ -44,9 +43,8 @@ public class SLCWithGet<E extends Comparable<? super E>>
     }
 
     /**
-     * Iterates through the linked list by recursion and 
-     * finds the element linked to endEntry and links it to the
-     * newly inserted Entry.
+     * Iterates through the linked list by recursion and finds the element
+     * linked to endEntry and links it to the newly inserted Entry.
      * 
      * @param iterator The current entry we use to iterate the linked list.
      * @param addedEntry the Entry the iterator.next need to be connected to.
@@ -67,9 +65,8 @@ public class SLCWithGet<E extends Comparable<? super E>>
      * @return the searched element if it was found.
      */
     public E get(E searchedElement) {
-        if (head == null) {
+        if (head == null)
             return null;
-        }
 
         Entry currentEntry = head;
         int compare = searchedElement.compareTo(currentEntry.element);
