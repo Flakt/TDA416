@@ -1,5 +1,6 @@
 package Lab.Lab3;
 
-public class CompKruskalEdge {
+public class CompKruskalEdge<E extends Edge> {
+
 
 }

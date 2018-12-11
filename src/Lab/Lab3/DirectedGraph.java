@@ -8,16 +8,24 @@ public class DirectedGraph<E extends Edge> {
 		;
 	}
 
-	public void addEdge(E e) {
+	public void addEdge(E edge) {
 		;
 	}
 
 	public Iterator<E> shortestPath(int from, int to) {
-		return null;
-	}
-		
-	public Iterator<E> minimumSpanningTree() {
+		// Call CompDijkstraPath
+
 		return null;
 	}
 
+	/**
+	 * Calculates the MST of the line traffic.
+	 *
+	 * @return the MST in form of an Iterator.
+	 */
+	public Iterator<E> minimumSpanningTree() {
+		// Call CompKryskalEdge
+
+		return null;
+	}
 }
