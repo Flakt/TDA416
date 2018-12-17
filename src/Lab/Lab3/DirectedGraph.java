@@ -15,6 +15,13 @@ public class DirectedGraph<E extends Edge> {
 		;
 	}
 
+	/**
+	 * Returns the shortest path from node A to node B.
+	 *
+	 * @param from The node we came from.
+	 * @param to The node we arrived to.
+	 * @return An iterator with the shortest path from node A to node B.
+	 */
 	public Iterator<E> shortestPath(int from, int to) {
 		CompDijkstraPath compD = new CompDijkstraPath(from, to, 0, edgeList);
 
