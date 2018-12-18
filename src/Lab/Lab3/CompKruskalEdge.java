@@ -1,28 +1,48 @@
 package Lab.Lab3;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class CompKruskalEdge<E extends Edge> {
     private PriorityQueue<E> prioQ = new PriorityQueue<>();
-    private List<List<E>> connections = new ArrayList<>();
+    private List<E> [] connections;
 
-    CompKruskalEdge() {
-
+    CompKruskalEdge(LinkedList <E>[] list) {
+        insertEdgesIntoQueue(list);
+        connections = new List[list.length];
     }
 
-    private void insertEdgesIntoQueue(List<E> edges) {
-        for (E edge : edges) {
-            prioQ.offer(edge);
+    private void insertEdgesIntoQueue(LinkedList<E> [] list) {
+        for (LinkedList<E> edges : list) {
+            ListIterator<E> itr = edges.listIterator();
+            while (itr.hasNext()) {
+                prioQ.offer(itr.next());
+            }
         }
     }
 
+    public Iterator<E> minimumSpanningTree() {
+        while (!prioQ.isEmpty() && connections.length > 1) {
+            E edge = prioQ.poll();
 
-    private void insertEdgeIntoCc(E edge, int index) {
-        connections.get(index).add(edge);
+            int from = edge.from;
+            int to = edge.to;
+
+            if (connections[from] != connections[to]) {
+                if (connections[from].size() > connections[to].size()) {
+                    moveEdges(from, connections[to]);
+                    connections[to] = connections[from];
+                }
+                else {
+                    moveEdges(to,connections[from]);
+                    connections[from] = connections[to];
+                }
+                connections[from].add(edge);
+            }
+        }
+        return connections[0].iterator();
     }
 
+/*
     public List compare(List<E> edges) {
         insertEdgesIntoQueue(edges);
 
@@ -31,22 +51,22 @@ public class CompKruskalEdge<E extends Edge> {
 
             if (connections.get(edge.from - 1).size() < connections.get(edge.to - 1).size()) {
                 moveEdges(edge.to, connections.get(edge.from - 1));
-                insertEdgeIntoCc((E) edge, edge.to);
+                connections.get(edge.to).add((E) edge);
             }
             else {
                 moveEdges(edge.from, connections.get(edge.to - 1));
-                insertEdgeIntoCc((E) edge, edge.from);
+                connections.get(edge.from).add((E) edge);
             }
         }
 
         return connections;
     }
-
+*/
 
     private void moveEdges(int index, List<E> edges) {
         for (E edge : edges) {
-            connections.get(index - 1).add(edge);
+            connections[index - 1].add(edge);
         }
     }
-    
+
 }
