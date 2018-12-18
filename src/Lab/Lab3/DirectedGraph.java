@@ -4,13 +4,18 @@ import java.util.*;
 
 public class DirectedGraph<E extends Edge> {
 
-	private LinkedList <E>[] edgeList; // LinkedList of all the edges
+	private LinkedList<E>[] edgeList; // LinkedList of all the edges
 
 	// Constructor that creates a list of all the edges
 	public DirectedGraph(int noOfNodes) {
 		edgeList = (LinkedList<E>[]) new LinkedList[noOfNodes];
 	}
 
+	/**
+	 * Adds an edge to the edgeList.
+	 *
+	 * @param edge The edge to add.
+	 */
 	public void addEdge(E edge) {
 		;
 	}
@@ -39,3 +44,11 @@ public class DirectedGraph<E extends Edge> {
 		return null;
 	}
 }
+
+/*
+TODO
+1. minimumSpanningTree need to actually call CompKruskalEdge.
+2. Make an addEdge (to fill out edgeList).
+3. Make sure that shortestPath is calling properly.
+*/
+
