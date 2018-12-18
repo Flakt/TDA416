@@ -2,71 +2,100 @@ package Lab.Lab3;
 
 import java.util.*;
 
-public class CompKruskalEdge<E extends Edge> {
-    private PriorityQueue<E> prioQ = new PriorityQueue<>();
-    private List<E> [] connections;
+/**
+ * Class that implements the OH version of Kruskals algorithm, which given a tree finds the minimum spanning tree.
+ *
+ * @param <E> A type that extends Edge.
+ */
+public class CompKruskalEdge<E extends Edge> implements Comparator<E>{
+    private PriorityQueue<E> prioQ;
+    private List<E> [] cc;
+    private LinkedList<E> [] edgeList;
 
-    CompKruskalEdge(LinkedList <E>[] list) {
-        insertEdgesIntoQueue(list);
-        connections = new List[list.length];
-    }
-
-    private void insertEdgesIntoQueue(LinkedList<E> [] list) {
-        for (LinkedList<E> edges : list) {
-            ListIterator<E> itr = edges.listIterator();
-            while (itr.hasNext()) {
-                prioQ.offer(itr.next());
-            }
+    /**
+     * The constructor which takes the lists of edges required for the algorithm
+     *
+     * @param edgeList the list which contains linked lists containing edges
+     */
+    CompKruskalEdge(LinkedList<E>[] edgeList) {
+        this.edgeList = edgeList;
+        cc = new List[edgeList.length];
+        for (int i = 0; i < cc.length; i++) {
+            cc[i] = new ArrayList<>();
         }
     }
 
+    /**
+     * Inserts all edges within edgeList into a priority queue.
+     */
+    private void insertEdgesIntoQueue() {
+        prioQ = new PriorityQueue<>(edgeList.length, new CompKruskalEdge<>(edgeList));
+
+        for (LinkedList<E> edges : edgeList) {
+            prioQ.addAll(edges);
+        }
+    }
+
+    /**
+     * Moves all edges from the list to the destination list in cc.
+     *
+     * @param dest the index of cc to put the edges in
+     * @param edges the edges to be moved to cc[dest]
+     */
+    private void moveEdges(int dest, List<E> edges) {
+        for (E edge : edges) {
+            cc[dest].add(edge);
+            cc[edge.from] = cc[dest];
+            cc[edge.to] = cc[dest];
+        }
+    }
+
+    /**
+     * Creates a minimum spanning tree through a modified version of
+     * Kruskals algorithm.
+     *
+     * @return An iterator containing all edges which makes up the MST
+     */
     public Iterator<E> minimumSpanningTree() {
-        while (!prioQ.isEmpty() && connections.length > 1) {
+        insertEdgesIntoQueue();
+
+        while (!prioQ.isEmpty() && cc.length > 1) {
             E edge = prioQ.poll();
 
             int from = edge.from;
             int to = edge.to;
 
-            if (connections[from] != connections[to]) {
-                if (connections[from].size() > connections[to].size()) {
-                    moveEdges(from, connections[to]);
-                    connections[to] = connections[from];
+            if (cc[from] != cc[to]) {
+                if (cc[from].size() > cc[to].size()) {
+                    moveEdges(from, cc[to]);
+                    cc[to] = cc[from];
                 }
                 else {
-                    moveEdges(to,connections[from]);
-                    connections[from] = connections[to];
+                    moveEdges(to, cc[from]);
+                    cc[from] = cc[to];
                 }
-                connections[from].add(edge);
+                cc[from].add(edge);
             }
         }
-        return connections[0].iterator();
+        return cc[0].iterator();
     }
 
-/*
-    public List compare(List<E> edges) {
-        insertEdgesIntoQueue(edges);
-
-        while (!(prioQ.isEmpty()) && connections.size() > 1) {
-            Edge edge = prioQ.poll();
-
-            if (connections.get(edge.from - 1).size() < connections.get(edge.to - 1).size()) {
-                moveEdges(edge.to, connections.get(edge.from - 1));
-                connections.get(edge.to).add((E) edge);
-            }
-            else {
-                moveEdges(edge.from, connections.get(edge.to - 1));
-                connections.get(edge.from).add((E) edge);
-            }
+    /**
+     * Overriden method for comparing edges which is used to correctly instance
+     * an ordered priority queue.
+     *
+     * @param o1 an edge to be compared
+     * @param o2 an edge to be compared
+     * @return
+     */
+    @Override
+    public int compare(E o1, E o2) {
+        if (o1.getWeight() < o2.getWeight()) {
+            return -1;
         }
-
-        return connections;
-    }
-*/
-
-    private void moveEdges(int index, List<E> edges) {
-        for (E edge : edges) {
-            connections[index - 1].add(edge);
+        else if (o1.getWeight() == o2.getWeight()) {
+            return 0;
         }
+        return 1;
     }
-
 }

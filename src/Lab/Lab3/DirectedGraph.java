@@ -6,9 +6,15 @@ public class DirectedGraph<E extends Edge> {
 
 	private LinkedList<E>[] edgeList; // LinkedList of all the edges
 
+	private List<E> edges = new ArrayList<>();
+
 	// Constructor that creates a list of all the edges
 	public DirectedGraph(int noOfNodes) {
 		edgeList = (LinkedList<E>[]) new LinkedList[noOfNodes];
+
+		for (int i = 0; i < edgeList.length; i++) {
+			edgeList[i] = new LinkedList<>();
+		}
 	}
 
 	/**
@@ -17,7 +23,9 @@ public class DirectedGraph<E extends Edge> {
 	 * @param edge The edge to add.
 	 */
 	public void addEdge(E edge) {
-		;
+		if (edge != null) {
+			edgeList[edge.getSource()].add(edge);
+		}
 	}
 
 	/**
@@ -39,9 +47,9 @@ public class DirectedGraph<E extends Edge> {
 	 * @return the MST in form of an Iterator.
 	 */
 	public Iterator<E> minimumSpanningTree() {
-		// Call CompKryskalEdge
+		CompKruskalEdge compE = new CompKruskalEdge(edgeList);
 
-		return null;
+		return compE.minimumSpanningTree();
 	}
 }
 
