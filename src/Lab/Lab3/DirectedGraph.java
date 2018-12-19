@@ -3,7 +3,6 @@ package Lab.Lab3;
 import java.util.*;
 
 public class DirectedGraph<E extends Edge> {
-
 	private LinkedList<E>[] edgeList; // LinkedList of all the Edges
 
 	// Constructor that creates a list of all the Edges

@@ -12,7 +12,7 @@ class CompDijkstraPath<E extends Edge> {
     private LinkedList<E>[] edgeList; // The list of Edges created from the constructor
 
     /**
-     * The constructor that gets the necessary variables to call getShortestPath
+     * The constructor that gets the necessary variables to call getShortestPath.
      *
      * @param edgeList A list of all the Edges.
      */
@@ -23,8 +23,8 @@ class CompDijkstraPath<E extends Edge> {
     /**
      * Calculates the shortest path from node A to node B.
      *
-     * @param startPoint Where a node begins.
-     * @param endPoint   Where a node travels to.
+     * @param startPoint The node we are traveling from.
+     * @param endPoint   The node we want to arrive at.
      * @return An iterator with the shortest path from node A to node B.
      */
     Iterator<E> getShortestPath(int startPoint, int endPoint) {
