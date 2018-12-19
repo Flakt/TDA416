@@ -7,24 +7,21 @@ import java.util.*;
  *
  * @param <E> A type that extends Edge.
  */
-public class CompDijkstraPath<E extends Edge> {
+class CompDijkstraPath<E extends Edge> {
     private final int from;
     private final int to;
-    private final double weight; // TODO NEEDED?
     private LinkedList<E>[] edgeList;
 
     /**
      * The constructor that gets the necessary variables to call getShortestPath
      *
-     * @param from The node we came from.
-     * @param to The node we arrived to.
-     * @param weight The weight of the edge.
+     * @param from     The node we came from.
+     * @param to       The node we arrived to.
      * @param edgeList A list of all the edges.
      */
-    CompDijkstraPath(int from, int to, double weight, LinkedList<E>[] edgeList){
+    CompDijkstraPath(int from, int to, LinkedList<E>[] edgeList) {
         this.from = from;
         this.to = to;
-        this.weight = weight;
         this.edgeList = edgeList;
     }
 
@@ -32,7 +29,7 @@ public class CompDijkstraPath<E extends Edge> {
      * Calculates the shortest path from node A to node B.
      *
      * @param startPoint Where a node begins.
-     * @param endPoint Where a node travels to.
+     * @param endPoint   Where a node travels to.
      * @return An iterator with the shortest path from node A to node B.
      */
     Iterator<E> getShortestPath(int startPoint, int endPoint) {
@@ -40,19 +37,19 @@ public class CompDijkstraPath<E extends Edge> {
         PriorityQueue<PqElement> pq = new PriorityQueue<>();                 // The priority queue
         pq.add(new PqElement(startPoint, 0, new LinkedList<>())); // Add first element to the pq
 
-        while (!pq.isEmpty()) {                                             // While pq != empty
-            PqElement currentNode = pq.poll();                              //   currentNode = first element in pq.
-            if (!visitedNodes.contains(currentNode.node)) {                 //   if (node isn't visited)
-                if (currentNode.node == endPoint) {                         //     if (node is end point)
-                    return currentNode.path.iterator();                     //       return path
-                } else {                                                    //     else
-                    visitedNodes.add(currentNode.node);                     //       mark node visited
-                    for (E nodeOnEL : edgeList[currentNode.node])           //       for every node on edgeList
-                        if (!visitedNodes.contains(nodeOnEL.to)) {          //         if (not visited)
-                            double totalWeight = currentNode.pathWeight + nodeOnEL.getWeight(); // Add weight to path
-                            LinkedList<E> newPath = currentNode.path;                           // Create a new path
-                            newPath.add(nodeOnEL);                                              // Add new node to path
-                            pq.add(new PqElement(nodeOnEL.to, totalWeight, newPath));           // Add elem to pq
+        while (!pq.isEmpty()) {
+            PqElement currentNode = pq.poll();
+            if (!visitedNodes.contains(currentNode.node)) {
+                if (currentNode.node == endPoint) {
+                    return currentNode.path.iterator();
+                } else {
+                    visitedNodes.add(currentNode.node);
+                    for (E nodeOnEL : edgeList[currentNode.node])
+                        if (!visitedNodes.contains(nodeOnEL.to)) {
+                            double totalWeight = currentNode.pathWeight + nodeOnEL.getWeight();
+                            LinkedList<E> newPath = (LinkedList<E>) currentNode.path.clone();
+                            newPath.add(nodeOnEL);
+                            pq.add(new PqElement(nodeOnEL.to, totalWeight, newPath));
                         }
                 }
             }
@@ -60,17 +57,16 @@ public class CompDijkstraPath<E extends Edge> {
         return null;
     }
 
-
     /**
      * Weighted path that is suited for the PriorityQueue.
      */
-    class PqElement implements Comparable<PqElement>{
+    class PqElement implements Comparable<PqElement> {
         private int node;           // The node arrived at
         private double pathWeight;  // The cost of getting to "node" from the start node
         LinkedList<E> path;         // The path from the start node
 
         // Constructor
-        PqElement(int node, double pathWeight, LinkedList<E> path){
+        PqElement(int node, double pathWeight, LinkedList<E> path) {
             this.node = node;
             this.pathWeight = pathWeight;
             this.path = path;
