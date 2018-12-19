@@ -6,8 +6,6 @@ public class DirectedGraph<E extends Edge> {
 
 	private LinkedList<E>[] edgeList; // LinkedList of all the edges
 
-	private List<E> edges = new ArrayList<>();
-
 	// Constructor that creates a list of all the edges
 	public DirectedGraph(int noOfNodes) {
 		edgeList = (LinkedList<E>[]) new LinkedList[noOfNodes];
@@ -32,11 +30,11 @@ public class DirectedGraph<E extends Edge> {
 	 * Returns the shortest path from node A to node B.
 	 *
 	 * @param from The node we came from.
-	 * @param to The node we arrived to.
+	 * @param to   The node we arrived to.
 	 * @return An iterator with the shortest path from node A to node B.
 	 */
 	public Iterator<E> shortestPath(int from, int to) {
-		CompDijkstraPath compD = new CompDijkstraPath(from, to, 0, edgeList);
+		CompDijkstraPath compD = new CompDijkstraPath(from, to, edgeList);
 
 		return compD.getShortestPath(from, to);
 	}
