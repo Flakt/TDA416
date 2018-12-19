@@ -9,20 +9,14 @@ import java.util.*;
  * @param <E> A type that extends Edge.
  */
 class CompDijkstraPath<E extends Edge> {
-    private final int from;
-    private final int to;
-    private LinkedList<E>[] edgeList;
+    private LinkedList<E>[] edgeList; // The list of Edges created from the constructor
 
     /**
      * The constructor that gets the necessary variables to call getShortestPath
      *
-     * @param from     The node we came from.
-     * @param to       The node we arrived to.
-     * @param edgeList A list of all the edges.
+     * @param edgeList A list of all the Edges.
      */
-    CompDijkstraPath(int from, int to, LinkedList<E>[] edgeList) {
-        this.from = from;
-        this.to = to;
+    CompDijkstraPath(LinkedList<E>[] edgeList) {
         this.edgeList = edgeList;
     }
 
