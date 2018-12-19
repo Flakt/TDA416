@@ -52,11 +52,3 @@ public class DirectedGraph<E extends Edge> {
 		return compE.minimumSpanningTree();
 	}
 }
-
-/*
-TODO
-1. minimumSpanningTree need to actually call CompKruskalEdge.
-2. Make an addEdge (to fill out edgeList).
-3. Make sure that shortestPath is calling properly.
-*/
-
