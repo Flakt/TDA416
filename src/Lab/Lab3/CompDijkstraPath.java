@@ -64,7 +64,7 @@ public class CompDijkstraPath<E extends Edge> {
     /**
      * Weighted path that is suited for the PriorityQueue.
      */
-    class PqElement {
+    class PqElement implements Comparable<PqElement>{
         private int node;           // The node arrived at
         private double pathWeight;  // The cost of getting to "node" from the start node
         LinkedList<E> path;         // The path from the start node
@@ -76,6 +76,13 @@ public class CompDijkstraPath<E extends Edge> {
             this.path = path;
         }
 
-        // TODO Implement comparable and override compareTo?
+        @Override
+        public int compareTo(PqElement elem) {
+            if (this.pathWeight < elem.pathWeight) {
+                return -1;
+            } else if (this.pathWeight > elem.pathWeight) {
+                return 1;
+            } else return 0;
+        }
     }
 }
