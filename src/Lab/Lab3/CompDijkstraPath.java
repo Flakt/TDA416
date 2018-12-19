@@ -3,7 +3,8 @@ package Lab.Lab3;
 import java.util.*;
 
 /**
- * Class that implements the OH version of the Dijkstra algorithm, that finds the shortest route from one to ONE node.
+ * Class that implements the OH version of the Dijkstra algorithm,
+ * that finds the shortest route from one to ONE node.
  *
  * @param <E> A type that extends Edge.
  */
@@ -33,10 +34,14 @@ class CompDijkstraPath<E extends Edge> {
      * @return An iterator with the shortest path from node A to node B.
      */
     Iterator<E> getShortestPath(int startPoint, int endPoint) {
-        List<Integer> visitedNodes = new ArrayList<>();                      // List of all the visited nodes
-        PriorityQueue<PqElement> pq = new PriorityQueue<>();                 // The priority queue
-        pq.add(new PqElement(startPoint, 0, new LinkedList<>())); // Add first element to the pq
+        // List of all the visited nodes
+        List<Integer> visitedNodes = new ArrayList<>();
 
+        // Creates a PriorityQueue and adds a first element to it
+        PriorityQueue<PqElement> pq = new PriorityQueue<>();
+        pq.add(new PqElement(startPoint, 0, new LinkedList<>()));
+
+        // Dijkstra's algorithm (OH version)
         while (!pq.isEmpty()) {
             PqElement currentNode = pq.poll();
             if (!visitedNodes.contains(currentNode.node)) {
