@@ -8,7 +8,7 @@ import java.util.*;
  * @param <E> A type that extends Edge.
  */
 public class CompKruskalEdge<E extends Edge> implements Comparator<E>{
-    private PriorityQueue<E> prioQ;
+    private PriorityQueue<E> pq;
     private List<E> [] cc;
     private LinkedList<E> [] edgeList;
 
@@ -26,31 +26,6 @@ public class CompKruskalEdge<E extends Edge> implements Comparator<E>{
     }
 
     /**
-     * Inserts all edges within edgeList into a priority queue.
-     */
-    private void insertEdgesIntoQueue() {
-        prioQ = new PriorityQueue<>(edgeList.length, new CompKruskalEdge<>(edgeList));
-
-        for (LinkedList<E> edges : edgeList) {
-            prioQ.addAll(edges);
-        }
-    }
-
-    /**
-     * Moves all edges from the list to the destination list in cc.
-     *
-     * @param dest  The index of cc to put the edges in
-     * @param edges The edges to be moved to cc[dest]
-     */
-    private void moveEdges(int dest, List<E> edges) {
-        for (E edge : edges) {
-            cc[dest].add(edge);
-            cc[edge.from] = cc[dest];
-            cc[edge.to] = cc[dest];
-        }
-    }
-
-    /**
      * Creates a minimum spanning tree through a modified version of Kruskal's algorithm.
      *
      * @return An iterator containing all edges which makes up the MST
@@ -58,8 +33,8 @@ public class CompKruskalEdge<E extends Edge> implements Comparator<E>{
     Iterator<E> minimumSpanningTree() {
         insertEdgesIntoQueue();
 
-        while (!prioQ.isEmpty() && cc.length > 1) {
-            E edge = prioQ.poll();
+        while (!pq.isEmpty() && cc.length > 1) {
+            E edge = pq.poll();
 
             int from = edge.from;
             int to = edge.to;
@@ -77,6 +52,31 @@ public class CompKruskalEdge<E extends Edge> implements Comparator<E>{
             }
         }
         return cc[0].iterator();
+    }
+
+    /**
+     * Inserts all edges within edgeList into a priority queue.
+     */
+    private void insertEdgesIntoQueue() {
+        pq = new PriorityQueue<>(edgeList.length, new CompKruskalEdge<>(edgeList));
+
+        for (LinkedList<E> edges : edgeList) {
+            pq.addAll(edges);
+        }
+    }
+
+    /**
+     * Moves all edges from the list to the destination list in cc.
+     *
+     * @param dest  The index of cc to put the edges in
+     * @param edges The edges to be moved to cc[dest]
+     */
+    private void moveEdges(int dest, List<E> edges) {
+        for (E edge : edges) {
+            cc[dest].add(edge);
+            cc[edge.from] = cc[dest];
+            cc[edge.to] = cc[dest];
+        }
     }
 
     /**

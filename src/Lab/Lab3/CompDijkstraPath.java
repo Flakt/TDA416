@@ -77,7 +77,8 @@ class CompDijkstraPath<E extends Edge> {
                 return -1;
             } else if (this.pathWeight > elem.pathWeight) {
                 return 1;
-            } else return 0;
+            }
+            return 0;
         }
     }
 }
