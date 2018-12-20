@@ -39,8 +39,8 @@ public class CompKruskalEdge<E extends Edge> implements Comparator<E>{
     /**
      * Moves all edges from the list to the destination list in cc.
      *
-     * @param dest the index of cc to put the edges in
-     * @param edges the edges to be moved to cc[dest]
+     * @param dest  The index of cc to put the edges in
+     * @param edges The edges to be moved to cc[dest]
      */
     private void moveEdges(int dest, List<E> edges) {
         for (E edge : edges) {
@@ -51,12 +51,11 @@ public class CompKruskalEdge<E extends Edge> implements Comparator<E>{
     }
 
     /**
-     * Creates a minimum spanning tree through a modified version of
-     * Kruskals algorithm.
+     * Creates a minimum spanning tree through a modified version of Kruskal's algorithm.
      *
      * @return An iterator containing all edges which makes up the MST
      */
-    public Iterator<E> minimumSpanningTree() {
+    Iterator<E> minimumSpanningTree() {
         insertEdgesIntoQueue();
 
         while (!prioQ.isEmpty() && cc.length > 1) {
@@ -81,12 +80,12 @@ public class CompKruskalEdge<E extends Edge> implements Comparator<E>{
     }
 
     /**
-     * Overriden method for comparing edges which is used to correctly instance
+     * Overridden method for comparing edges which is used to correctly instance
      * an ordered priority queue.
      *
      * @param o1 an edge to be compared
      * @param o2 an edge to be compared
-     * @return
+     * @return an int that shows how the compare went
      */
     @Override
     public int compare(E o1, E o2) {
